@@ -1,0 +1,17 @@
+[
+  {
+    "question": "What is the capital of Nepal?",
+    "options": ["Kathmandu", "Pokhara", "Lalitpur", "Bhaktapur"],
+    "answer_index": 0
+  },
+  {
+    "question": "Flutter is developed by?",
+    "options": ["Apple", "Google", "Microsoft", "Facebook"],
+    "answer_index": 1
+  },
+  {
+    "question": "Which language is used in Flutter?",
+    "options": ["Java", "C++", "Dart", "Python"],
+    "answer_index": 2
+  }
+]

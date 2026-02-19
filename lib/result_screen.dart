@@ -14,9 +14,11 @@ class ResultScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Text("Your Score", style: TextStyle(fontSize: 24)),
+            SizedBox(height: 10),
             Text(
-              "Your Score: $score",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              "$score",
+              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 20),
             ElevatedButton(
