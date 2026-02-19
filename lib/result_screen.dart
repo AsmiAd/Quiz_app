@@ -3,11 +3,13 @@ import 'quiz_screen.dart';
 
 class ResultScreen extends StatelessWidget {
   final int score;
+  final int totalQuestions;
 
-  const ResultScreen({super.key, required this.score});
+  const ResultScreen({super.key, required this.score, required this.totalQuestions});
 
   @override
   Widget build(BuildContext context) {
+    final percentage = totalQuestions == 0 ? 0 : (score / totalQuestions * 100).round();
     return Scaffold(
       appBar: AppBar(title: const Text("Your Result")),
       body: Center(
@@ -19,6 +21,11 @@ class ResultScreen extends StatelessWidget {
             Text(
               "$score",
               style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              "$score out of $totalQuestions ($percentage%)",
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 20),
             ElevatedButton(

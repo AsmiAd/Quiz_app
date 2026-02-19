@@ -102,7 +102,10 @@ class _QuizScreenState extends State<QuizScreen> {
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => ResultScreen(score: score)),
+        MaterialPageRoute(
+          builder: (context) =>
+              ResultScreen(score: score, totalQuestions: questions.length),
+        ),
       );
     }
   }
@@ -128,6 +131,9 @@ class _QuizScreenState extends State<QuizScreen> {
     }
 
     final question = questions[currentQuestionIndex];
+    final totalQuestions = questions.length;
+    final currentQuestionNumber = currentQuestionIndex + 1;
+    final progressValue = currentQuestionNumber / totalQuestions;
 
     return Scaffold(
       appBar: AppBar(title: const Text("Quiz App")),
@@ -138,6 +144,15 @@ class _QuizScreenState extends State<QuizScreen> {
             Text(
               "Time Left: $secondsRemaining",
               style: const TextStyle(fontSize: 18, color: Colors.red),
+            ),
+            const SizedBox(height: 12),
+            Text( "Question $currentQuestionNumber of $totalQuestions", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),
+            const SizedBox(height: 8),
+            LinearProgressIndicator(
+              value: progressValue,
+              backgroundColor: Colors.grey[300],
+              color: Colors.blue,
+              minHeight: 8,
             ),
             const SizedBox(height: 20),
             Text(
