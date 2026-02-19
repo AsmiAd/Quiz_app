@@ -34,23 +34,32 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Future<void> loadQuestions() async {
-    final String response = await rootBundle.loadString(
-      'lib/data/questions.json',
-    );
-    final data = json.decode(response);
+    try {
+      final String response = await rootBundle.loadString(
+        'lib/data/questions.json',
+      );
+      final data = json.decode(response);
 
-    setState(() {
-      questions = data.map<Question>((q) => Question.fromJson(q)).toList();
-    });
+      if (!mounted) return;
+      setState(() {
+        questions = data.map<Question>((q) => Question.fromJson(q)).toList();
+      });
 
-    startTimer();
+      startTimer();
+    } catch (_) {
+      if (!mounted) return;
+
+      setState(() {
+        questions = [];
+      });
+    }
   }
 
   void startTimer() {
     secondsRemaining = 10;
     timer?.cancel();
 
-    timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (secondsRemaining > 0) {
         setState(() {
           secondsRemaining--;
@@ -76,7 +85,8 @@ class _QuizScreenState extends State<QuizScreen> {
 
     timer?.cancel();
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(const Duration(seconds: 2), () {
+      if (!mounted) return;
       nextQuestion();
     });
   }
@@ -114,30 +124,30 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   Widget build(BuildContext context) {
     if (questions.isEmpty) {
-      return Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     final question = questions[currentQuestionIndex];
 
     return Scaffold(
-      appBar: AppBar(title: Text("Quiz App")),
+      appBar: AppBar(title: const Text("Quiz App")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Text(
               "Time Left: $secondsRemaining",
-              style: TextStyle(fontSize: 18, color: Colors.red),
+              style: const TextStyle(fontSize: 18, color: Colors.red),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               question.questionText,
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ...List.generate(question.options.length, (index) {
               return Container(
-                margin: EdgeInsets.symmetric(vertical: 8),
+                margin: const EdgeInsets.symmetric(vertical: 8),
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(

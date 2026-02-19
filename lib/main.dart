@@ -15,9 +15,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: QuizScreen(),
+      home: const QuizScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
 }
-
