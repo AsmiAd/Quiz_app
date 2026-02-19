@@ -3,6 +3,8 @@ import 'question_model.dart';
 import 'result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
+  const QuizScreen({super.key});
+
   @override
   State<QuizScreen> createState() => _QuizScreenState();
 }
@@ -20,7 +22,6 @@ class _QuizScreenState extends State<QuizScreen> {
       if (currentQuestion < sampleQuestions.length - 1) {
         currentQuestion++;
       } else {
-        // Navigate to result screen
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
