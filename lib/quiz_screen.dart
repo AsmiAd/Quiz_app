@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:quiz_app/app_style.dart';
 import 'question_model.dart';
 import 'result_screen.dart';
 
@@ -56,7 +57,7 @@ class _QuizScreenState extends State<QuizScreen> {
       setState(() {
         questions = [];
         isLoading = false;
-        hasLoadingError = false;
+        hasLoadingError = true;
       });
     }
   }
@@ -117,17 +118,17 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   Color getOptionColor(int index) {
-    if (!answerSelected) return Colors.blue;
+    if (!answerSelected) return AppColors.optionDefault;
 
     if (index == questions[currentQuestionIndex].correctAnswerIndex) {
-      return Colors.green;
+      return AppColors.success;
     }
 
     if (index == selectedIndex) {
-      return Colors.red;
+      return AppColors.danger;
     }
 
-    return Colors.blue;
+    return AppColors.optionDefault;
   }
 
   @override
@@ -138,13 +139,13 @@ class _QuizScreenState extends State<QuizScreen> {
 
     if (hasLoadingError) {
       return Scaffold(
-        appBar: AppBar(title: const Text("Quiz App")),
+        appBar: AppBar(title: const Text(AppText.appTitle)),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                "Could not load questions.",
+                AppText.loadError,
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 12),
@@ -156,7 +157,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   });
                   loadQuestions();
                 },
-                child: const Text("Retry"),
+                child: const Text(AppText.retry),
               ),
             ],
           ),
@@ -165,9 +166,7 @@ class _QuizScreenState extends State<QuizScreen> {
     }
 
     if (questions.isEmpty) {
-      return const Scaffold(
-        body: Center(child: Text("No questions available.")),
-      );
+      return const Scaffold(body: Center(child: Text(AppText.noQuestions)));
     }
 
     final question = questions[currentQuestionIndex];
@@ -176,14 +175,14 @@ class _QuizScreenState extends State<QuizScreen> {
     final progressValue = currentQuestionNumber / totalQuestions;
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Quiz App")),
+      appBar: AppBar(title: const Text(AppText.appTitle)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Text(
               "Time Left: $secondsRemaining",
-              style: const TextStyle(fontSize: 18, color: Colors.red),
+              style: const TextStyle(fontSize: 18, color: AppColors.timer),
             ),
             const SizedBox(height: 12),
             Text(
@@ -194,7 +193,7 @@ class _QuizScreenState extends State<QuizScreen> {
             LinearProgressIndicator(
               value: progressValue,
               backgroundColor: Colors.grey[300],
-              color: Colors.blue,
+              color: AppColors.primary,
               minHeight: 8,
             ),
             const SizedBox(height: 20),
