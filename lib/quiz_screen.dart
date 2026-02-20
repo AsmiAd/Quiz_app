@@ -20,6 +20,8 @@ class _QuizScreenState extends State<QuizScreen> {
   bool answerSelected = false;
   int secondsRemaining = 10;
   Timer? timer;
+  bool isLoading = true;
+  bool hasLoadingError = false;
 
   @override
   void initState() {
@@ -43,6 +45,8 @@ class _QuizScreenState extends State<QuizScreen> {
       if (!mounted) return;
       setState(() {
         questions = data.map<Question>((q) => Question.fromJson(q)).toList();
+        isLoading = false;
+        hasLoadingError = false;
       });
 
       startTimer();
@@ -51,6 +55,8 @@ class _QuizScreenState extends State<QuizScreen> {
 
       setState(() {
         questions = [];
+        isLoading = false;
+        hasLoadingError = false;
       });
     }
   }
@@ -126,8 +132,42 @@ class _QuizScreenState extends State<QuizScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (questions.isEmpty) {
+    if (isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+
+    if (hasLoadingError) {
+      return Scaffold(
+        appBar: AppBar(title: const Text("Quiz App")),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Could not load questions.",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: () {
+                  setState(() {
+                    isLoading = true;
+                    hasLoadingError = false;
+                  });
+                  loadQuestions();
+                },
+                child: const Text("Retry"),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (questions.isEmpty) {
+      return const Scaffold(
+        body: Center(child: Text("No questions available.")),
+      );
     }
 
     final question = questions[currentQuestionIndex];
@@ -146,7 +186,10 @@ class _QuizScreenState extends State<QuizScreen> {
               style: const TextStyle(fontSize: 18, color: Colors.red),
             ),
             const SizedBox(height: 12),
-            Text( "Question $currentQuestionNumber of $totalQuestions", style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),
+            Text(
+              "Question $currentQuestionNumber of $totalQuestions",
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            ),
             const SizedBox(height: 8),
             LinearProgressIndicator(
               value: progressValue,
