@@ -41,7 +41,7 @@ class _QuizScreenState extends State<QuizScreen> {
       final String response = await rootBundle.loadString(
         'lib/data/questions.json',
       );
-      final data = json.decode(response);
+      final List<dynamic> data = json.decode(response) as List<dynamic>;
 
       if (!mounted) return;
       setState(() {
@@ -63,8 +63,10 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   void startTimer() {
-    secondsRemaining = 10;
     timer?.cancel();
+    setState(() {
+      secondsRemaining = 10;
+    });
 
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (secondsRemaining > 0) {
@@ -181,12 +183,12 @@ class _QuizScreenState extends State<QuizScreen> {
         child: Column(
           children: [
             Text(
-              "Time Left: $secondsRemaining",
+              "${AppText.timerLabel}: $secondsRemaining",
               style: const TextStyle(fontSize: 18, color: AppColors.timer),
             ),
             const SizedBox(height: 12),
             Text(
-              "Question $currentQuestionNumber of $totalQuestions",
+              "${AppText.questionLabel} $currentQuestionNumber of $totalQuestions",
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
             ),
             const SizedBox(height: 8),

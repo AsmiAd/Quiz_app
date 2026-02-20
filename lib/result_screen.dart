@@ -27,7 +27,7 @@ class ResultScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Your Score', style: TextStyle(fontSize: 24)),
+              const Text(AppText.yourScore, style: TextStyle(fontSize: 24)),
               const SizedBox(height: 10),
               Text(
                 '$score',
@@ -58,7 +58,7 @@ class ResultScreen extends StatelessWidget {
                       (_) => false,
                     );
                   },
-                  child: const Text('Save & Go Home'),
+                  child: const Text(AppText.saveAndGoHome),
                 ),
               ),
               const SizedBox(height: 10),
@@ -73,7 +73,7 @@ class ResultScreen extends StatelessWidget {
                       ),
                     );
                   },
-                  child: const Text('Restart Quiz'),
+                  child: const Text(AppText.restartQuiz),
                 ),
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/app_style.dart';
 import 'score_store.dart';
 
 class ScoresScreen extends StatelessWidget {
@@ -8,11 +9,11 @@ class ScoresScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Recent Scores'),
+        title: const Text(AppText.recentScores),
         actions: [
           TextButton(
             onPressed: ScoreStore.clearScores,
-            child: const Text('Clear'),
+            child: const Text(AppText.clearScores),
           ),
         ],
       ),
@@ -22,7 +23,7 @@ class ScoresScreen extends StatelessWidget {
           if (scores.isEmpty) {
             return const Center(
               child: Text(
-                'No scores yet.\nPlay a quiz to see results here.',
+                AppText.noScores,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 18),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiz_app/app_style.dart';
 import 'quiz_screen.dart';
 import 'scores_screen.dart';
 
@@ -8,7 +9,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Quiz Home'), centerTitle: true),
+      appBar: AppBar(title: const Text(AppText.homeTitle), centerTitle: true),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
@@ -22,13 +23,13 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               const Text(
-                'Welcome to Quiz Master',
+                AppText.homeWelcomeTitle,
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
               const Text(
-                'Play a quick quiz and track your recent scores.',
+                AppText.homeWelcomeSubtitle,
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
@@ -45,7 +46,7 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   icon: const Icon(Icons.play_arrow_rounded),
-                  label: const Text('Start Quiz'),
+                  label: const Text(AppText.startQuiz),
                 ),
               ),
               const SizedBox(height: 12),
@@ -61,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                     );
                   },
                   icon: const Icon(Icons.leaderboard_rounded),
-                  label: const Text('View Scores'),
+                  label: const Text(AppText.viewScores),
                 ),
               ),
             ],
