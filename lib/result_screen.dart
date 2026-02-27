@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/app_style.dart';
 import 'package:quiz_app/home_screen.dart';
+import 'package:quiz_app/quiz_config.dart';
 import 'package:quiz_app/score_store.dart';
 import 'quiz_screen.dart';
 
 class ResultScreen extends StatelessWidget {
   final int score;
   final int totalQuestions;
+  final QuizConfig config;
 
   const ResultScreen({
     super.key,
     required this.score,
     required this.totalQuestions,
+    required this.config,
   });
 
   @override
@@ -69,7 +72,7 @@ class ResultScreen extends StatelessWidget {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const QuizScreen(),
+                        builder: (context) => QuizScreen(config: config),
                       ),
                     );
                   },

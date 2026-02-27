@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/app_style.dart';
+import 'package:quiz_app/quiz_config.dart';
 import 'quiz_screen.dart';
 import 'scores_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  QuizSource _selectedSource = QuizSource.local;
+  QuizCategory _selectedCategory = quizCategories.first;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +43,52 @@ class HomeScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30),
+              const SizedBox(height: 24),
+              DropdownButtonFormField<QuizSource>(
+                value: _selectedSource,
+                decoration: const InputDecoration(
+                  labelText: AppText.questionSource,
+                  border: OutlineInputBorder(),
+                ),
+                items: const [
+                  DropdownMenuItem(
+                    value: QuizSource.local,
+                    child: Text(AppText.localQuestions),
+                  ),
+                  DropdownMenuItem(
+                    value: QuizSource.api,
+                    child: Text(AppText.apiQuestions),
+                  ),
+                ],
+                onChanged: (value) {
+                  if (value == null) return;
+                  setState(() {
+                    _selectedSource = value;
+                  });
+                },
+              ),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<QuizCategory>(
+                value: _selectedCategory,
+                decoration: const InputDecoration(
+                  labelText: AppText.category,
+                  border: OutlineInputBorder(),
+                ),
+                items: quizCategories
+                    .map(
+                      (category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(category.name),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  if (value == null) return;
+                  setState(() {
+                    _selectedCategory = value;
+                  });
+                },
+              ),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton.icon(
@@ -41,7 +96,12 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const QuizScreen(),
+                        builder: (context) => QuizScreen(
+                          config: QuizConfig(
+                            source: _selectedSource,
+                            category: _selectedCategory,
+                          ),
+                        ),
                       ),
                     );
                   },

@@ -1,19 +1,24 @@
 import 'dart:async';
-import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:quiz_app/app_style.dart';
+
 import 'question_model.dart';
+import 'question_repository.dart';
+import 'quiz_config.dart';
 import 'result_screen.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+  final QuizConfig config;
+
+  const QuizScreen({super.key, required this.config});
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
 }
 
 class _QuizScreenState extends State<QuizScreen> {
+  final QuestionRepository _repository = QuestionRepository();
   List<Question> questions = [];
   int currentQuestionIndex = 0;
   int score = 0;
@@ -23,6 +28,7 @@ class _QuizScreenState extends State<QuizScreen> {
   Timer? timer;
   bool isLoading = true;
   bool hasLoadingError = false;
+  bool usedApiFallback = false;
 
   @override
   void initState() {
@@ -38,16 +44,15 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Future<void> loadQuestions() async {
     try {
-      final String response = await rootBundle.loadString(
-        'lib/data/questions.json',
-      );
-      final List<dynamic> data = json.decode(response) as List<dynamic>;
+      final loadedQuestions = await _repository.loadQuestions(widget.config);
 
       if (!mounted) return;
       setState(() {
-        questions = data.map<Question>((q) => Question.fromJson(q)).toList();
+        questions = loadedQuestions;
         isLoading = false;
         hasLoadingError = false;
+        usedApiFallback =
+            widget.config.source == QuizSource.api && loadedQuestions.length != 10;
       });
 
       startTimer();
@@ -112,8 +117,11 @@ class _QuizScreenState extends State<QuizScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              ResultScreen(score: score, totalQuestions: questions.length),
+          builder: (context) => ResultScreen(
+            score: score,
+            totalQuestions: questions.length,
+            config: widget.config,
+          ),
         ),
       );
     }
@@ -177,11 +185,20 @@ class _QuizScreenState extends State<QuizScreen> {
     final progressValue = currentQuestionNumber / totalQuestions;
 
     return Scaffold(
-      appBar: AppBar(title: const Text(AppText.appTitle)),
+      appBar: AppBar(title: Text('${AppText.appTitle} • ${widget.config.category.name}')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            if (usedApiFallback)
+              const Padding(
+                padding: EdgeInsets.only(bottom: 8),
+                child: Text(
+                  AppText.apiFallback,
+                  style: TextStyle(color: Colors.orange, fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             Text(
               "${AppText.timerLabel}: $secondsRemaining",
               style: const TextStyle(fontSize: 18, color: AppColors.timer),

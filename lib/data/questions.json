@@ -1,15 +1,48 @@
 [
   {
+    "category": "general",
     "question": "What is the capital of Nepal?",
     "options": ["Kathmandu", "Pokhara", "Lalitpur", "Bhaktapur"],
     "answer_index": 0
   },
   {
+    "category": "general",
+    "question": "Which planet is known as the Red Planet?",
+    "options": ["Mars", "Venus", "Jupiter", "Saturn"],
+    "answer_index": 0
+  },
+  {
+    "category": "science",
+    "question": "What gas do plants absorb from the atmosphere?",
+    "options": ["Carbon Dioxide", "Oxygen", "Nitrogen", "Hydrogen"],
+    "answer_index": 0
+  },
+  {
+    "category": "science",
+    "question": "What is the chemical symbol for water?",
+    "options": ["H2O", "O2", "CO2", "NaCl"],
+    "answer_index": 0
+  },
+  {
+    "category": "history",
+    "question": "Who was the first President of the United States?",
+    "options": ["George Washington", "Abraham Lincoln", "John Adams", "Thomas Jefferson"],
+    "answer_index": 0
+  },
+  {
+    "category": "history",
+    "question": "In which year did World War II end?",
+    "options": ["1945", "1939", "1918", "1965"],
+    "answer_index": 0
+  },
+  {
+    "category": "technology",
     "question": "Flutter is developed by?",
     "options": ["Apple", "Google", "Microsoft", "Facebook"],
     "answer_index": 1
   },
   {
+    "category": "technology",
     "question": "Which language is used in Flutter?",
     "options": ["Java", "C++", "Dart", "Python"],
     "answer_index": 2

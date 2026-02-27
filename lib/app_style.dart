@@ -16,6 +16,10 @@ class AppText {
   static const String homeWelcomeSubtitle =
       'Play a quick quiz and track your recent scores.';
   static const String startQuiz = 'Start Quiz';
+  static const String questionSource = 'Question Source';
+  static const String category = 'Category';
+  static const String localQuestions = 'My Questions';
+  static const String apiQuestions = 'Online Questions';
   static const String viewScores = 'View Scores';
 
   static const String timerLabel = 'Time Left';
@@ -32,6 +36,8 @@ class AppText {
       'No scores yet.\nPlay a quiz to see results here.';
 
   static const String retry = 'Retry';
+  static const String apiFallback =
+      'Could not fetch online questions. Loaded local questions instead.';
   static const String noQuestions = 'No questions available.';
   static const String loadError = 'Could not load questions.';
 }
