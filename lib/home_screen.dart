@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quiz_app/app_style.dart';
 import 'package:quiz_app/quiz_config.dart';
+import 'package:quiz_app/score_store.dart';
 import 'quiz_screen.dart';
 import 'scores_screen.dart';
 
@@ -42,7 +43,46 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(fontSize: 16),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
+              ValueListenableBuilder(
+                valueListenable: ScoreStore.scores,
+                builder: (context, scores, child) {
+                  if (scores.isEmpty) {
+                    return const SizedBox.shrink();
+                  }
+
+                  final bestEntry = scores.reduce((currentBest, entry) {
+                    return entry.percentage > currentBest.percentage
+                        ? entry
+                        : currentBest;
+                  });
+
+                  return Card(
+                    margin: const EdgeInsets.only(bottom: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.show_chart_rounded,
+                            color: AppColors.primary,
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              'Attempts: ${scores.length} • Best: ${bestEntry.percentage}%',
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
               const SizedBox(height: 24),
               DropdownButtonFormField<QuizSource>(
                 value: _selectedSource,

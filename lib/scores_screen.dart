@@ -5,6 +5,36 @@ import 'score_store.dart';
 class ScoresScreen extends StatelessWidget {
   const ScoresScreen({super.key});
 
+  Future<void> _confirmClearScores(BuildContext context) async {
+    final shouldClear = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Clear all scores?'),
+        content: const Text('This will remove your recent score history.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Clear'),
+          ),
+        ],
+      ),
+    );
+
+    if (shouldClear != true) {
+      return;
+    }
+
+    ScoreStore.clearScores();
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Score history cleared')));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +42,7 @@ class ScoresScreen extends StatelessWidget {
         title: const Text(AppText.recentScores),
         actions: [
           TextButton(
-            onPressed: ScoreStore.clearScores,
+            onPressed: () => _confirmClearScores(context),
             child: const Text(AppText.clearScores),
           ),
         ],

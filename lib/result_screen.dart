@@ -17,6 +17,18 @@ class ResultScreen extends StatelessWidget {
     required this.config,
   });
 
+  String _buildFeedback(int percentage) {
+    if (percentage >= 85) {
+      return 'Awesome work! You really know this topic.';
+    }
+
+    if (percentage >= 60) {
+      return 'Nice effort. A little more practice and you will master it!';
+    }
+
+    return 'Good try. Review the topic and take another round.';
+  }
+
   @override
   Widget build(BuildContext context) {
     final percentage = totalQuestions == 0
@@ -43,6 +55,12 @@ class ResultScreen extends StatelessWidget {
               Text(
                 '$score out of $totalQuestions ($percentage%)',
                 style: const TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                _buildFeedback(percentage),
+                style: const TextStyle(fontSize: 14, color: Colors.black87),
+                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
               SizedBox(
